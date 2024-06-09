@@ -12,7 +12,7 @@ import java.util.Date;
 public class TodoEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue
   private Long id;
   @NotBlank(message = "Title can not be empty")
   private String title;

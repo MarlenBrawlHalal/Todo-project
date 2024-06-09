@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/todo")
+@RequestMapping("todo")
 public class TodoController {
 
   private final TodoRepository todoRepository;
