@@ -1,6 +1,7 @@
 package com.example.todo.controllers.auth;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,14 +14,14 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Authentication")
 public class AuthenticationController {
 
-  private final AuthenticationService service;
+  private final AuthenticationService authService;
 
-  @PostMapping
+  @PostMapping("/register")
   @ResponseStatus(HttpStatus.ACCEPTED)
   public ResponseEntity<?> register(
       @RequestBody @Valid RegistrationRequest request
-  ) {
-    service.register(request);
+  ) throws MessagingException {
+    authService.register(request);
     return ResponseEntity.accepted().build();
   }
 

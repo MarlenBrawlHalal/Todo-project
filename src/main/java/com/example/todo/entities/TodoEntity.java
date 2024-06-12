@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "todo")
+@Table(name = "_todo")
 public class TodoEntity {
 
   @Id
