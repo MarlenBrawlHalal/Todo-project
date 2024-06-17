@@ -1,5 +1,6 @@
 package com.example.todo.user;
 
+import com.example.todo.entities.TodoEntity;
 import com.example.todo.role.Role;
 import jakarta.persistence.*;
 import lombok.*;
