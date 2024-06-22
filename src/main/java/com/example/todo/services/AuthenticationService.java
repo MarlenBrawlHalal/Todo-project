@@ -1,15 +1,15 @@
-package com.example.todo.controllers.auth;
+package com.example.todo.services;
 
-import com.example.todo.controllers.email.EmailService;
-import com.example.todo.controllers.email.EmailTemplateName;
-import com.example.todo.role.RoleRepository;
-import com.example.todo.security.JwtService;
-import com.example.todo.user.Token;
-import com.example.todo.user.TokenRepository;
-import com.example.todo.user.User;
-import com.example.todo.user.UserRepository;
+import com.example.todo.dto.AuthenticationRequestDto;
+import com.example.todo.dto.AuthenticationResponseDto;
+import com.example.todo.dto.RegistrationRequestDto;
+import com.example.todo.email.EmailTemplateName;
+import com.example.todo.repositories.RoleRepository;
+import com.example.todo.entities.Token;
+import com.example.todo.repositories.TokenRepository;
+import com.example.todo.entities.User;
+import com.example.todo.repositories.UserRepository;
 import jakarta.mail.MessagingException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,7 +36,7 @@ public class AuthenticationService {
   @Value("${application.mailing.frontend.activation-url}")
   private String activationUrl;
 
-  public void register(RegistrationRequest request) throws MessagingException {
+  public void register(RegistrationRequestDto request) throws MessagingException {
 
     var userRole = roleRepository.findRoleByName("USER")
         .orElseThrow(() -> new IllegalStateException("Role USER was not initialized"));
@@ -56,6 +56,7 @@ public class AuthenticationService {
   }
 
   private void sendValidationEmail(User user) throws MessagingException {
+
     var newToken = generateAndSaveActivationToken(user);
 
     emailService.sendEmail(
@@ -85,6 +86,7 @@ public class AuthenticationService {
   }
 
   private String generateActivationCode(int length) {
+
     String characters = "0123456789";
     StringBuilder codeBuilder = new StringBuilder();
     SecureRandom secureRandom = new SecureRandom();
@@ -97,7 +99,7 @@ public class AuthenticationService {
     return codeBuilder.toString();
   }
 
-  public AuthenticationResponse authenticate(AuthenticationRequest request) {
+  public AuthenticationResponseDto authenticate(AuthenticationRequestDto request) {
 
     var auth = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
@@ -107,18 +109,19 @@ public class AuthenticationService {
     );
 
     var claims = new HashMap<String, Object>();
-    var user = ((User)auth.getPrincipal());
+    var user = (User)auth.getPrincipal();
     claims.put("fullName", user.fullName());
 
     var jwtToken = jwtService.generateToken(claims, user);
 
-    return AuthenticationResponse.builder()
+    return AuthenticationResponseDto.builder()
         .token(jwtToken)
         .build();
   }
 
 //  @Transactional
   public void activateAccount(String token) throws MessagingException {
+
     Token savedToken = tokenRepository.findTokenByToken(token)
         .orElseThrow(() -> new RuntimeException("invalid token"));
 

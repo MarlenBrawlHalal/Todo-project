@@ -1,5 +1,6 @@
-package com.example.todo.user;
+package com.example.todo.repositories;
 
+import com.example.todo.entities.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

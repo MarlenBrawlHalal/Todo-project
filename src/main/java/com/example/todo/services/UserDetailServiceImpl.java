@@ -1,6 +1,6 @@
-package com.example.todo.security;
+package com.example.todo.services;
 
-import com.example.todo.user.UserRepository;
+import com.example.todo.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

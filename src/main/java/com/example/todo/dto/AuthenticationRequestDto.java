@@ -1,4 +1,4 @@
-package com.example.todo.controllers.auth;
+package com.example.todo.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class AuthenticationRequest {
+public class AuthenticationRequestDto {
 
   @Email(message = "Email is not formatted")
   @NotEmpty(message = "Email shouldn't be empty")

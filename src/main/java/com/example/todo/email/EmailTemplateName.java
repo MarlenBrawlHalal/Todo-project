@@ -1,4 +1,4 @@
-package com.example.todo.controllers.email;
+package com.example.todo.email;
 
 import lombok.Getter;
 

@@ -1,16 +1,22 @@
 package com.example.todo.entities;
 
-import com.example.todo.user.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "todo")
+@EntityListeners(AuditingEntityListener.class)
 public class TodoEntity {
 
   @Id
@@ -19,10 +25,14 @@ public class TodoEntity {
   @NotBlank(message = "Title can not be empty")
   private String title;
 
-  private Date createdAt = new Date();
+  @CreatedDate
+  @Column(nullable = false, updatable = false)
+  private LocalDateTime createdDate;
+  @LastModifiedDate
+  @Column(insertable = false)
+  private LocalDateTime lastModifiedDate;
 
   @ManyToOne
   @JoinColumn(name = "userId", nullable = false)
-  @JsonIgnore
   private User user;
 }

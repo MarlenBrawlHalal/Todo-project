@@ -1,5 +1,6 @@
-package com.example.todo.user;
+package com.example.todo.entities;
 
+import com.example.todo.entities.User;
 import jakarta.persistence.*;
 import lombok.*;
 

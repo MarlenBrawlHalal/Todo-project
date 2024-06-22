@@ -28,6 +28,18 @@ public class GlobalExceptionHandler {
                 .build()
         );
   }
+  @ExceptionHandler(NotFoundException.class)
+  public ResponseEntity<ExceptionResponse> handleException(NotFoundException exp) {
+    return ResponseEntity
+        .status(HttpStatus.NOT_FOUND)
+        .body(
+            ExceptionResponse.builder()
+                .businessErrorCode(BusinessErrorCodes.NOT_FOUND.getCode())
+                .businessErrorDescription(BusinessErrorCodes.NOT_FOUND.getDescription())
+                .error(exp.getMessage())
+                .build()
+        );
+  }
   @ExceptionHandler(DisabledException.class)
   public ResponseEntity<ExceptionResponse> handleException(DisabledException exp) {
     return ResponseEntity

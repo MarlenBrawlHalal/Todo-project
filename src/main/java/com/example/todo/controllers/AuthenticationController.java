@@ -1,5 +1,9 @@
-package com.example.todo.controllers.auth;
+package com.example.todo.controllers;
 
+import com.example.todo.dto.AuthenticationRequestDto;
+import com.example.todo.dto.AuthenticationResponseDto;
+import com.example.todo.services.AuthenticationService;
+import com.example.todo.dto.RegistrationRequestDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -19,15 +23,15 @@ public class AuthenticationController {
   @PostMapping("/register")
   @ResponseStatus(HttpStatus.ACCEPTED)
   public ResponseEntity<?> register(
-      @RequestBody @Valid RegistrationRequest request
+      @RequestBody @Valid RegistrationRequestDto request
   ) throws MessagingException {
     authService.register(request);
     return ResponseEntity.accepted().build();
   }
 
   @PostMapping("/authenticate")
-  public ResponseEntity<AuthenticationResponse> authenticate(
-      @RequestBody @Valid AuthenticationRequest request
+  public ResponseEntity<AuthenticationResponseDto> authenticate(
+      @RequestBody @Valid AuthenticationRequestDto request
   ) {
     return ResponseEntity.ok(authService.authenticate(request));
   }

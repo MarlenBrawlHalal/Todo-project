@@ -1,6 +1,6 @@
-package com.example.todo.role;
+package com.example.todo.entities;
 
-import com.example.todo.user.User;
+import com.example.todo.entities.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;

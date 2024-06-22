@@ -1,7 +1,7 @@
 package com.example.todo;
 
-import com.example.todo.role.Role;
-import com.example.todo.role.RoleRepository;
+import com.example.todo.entities.Role;
+import com.example.todo.repositories.RoleRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,7 +1,5 @@
-package com.example.todo.user;
+package com.example.todo.entities;
 
-import com.example.todo.entities.TodoEntity;
-import com.example.todo.role.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;

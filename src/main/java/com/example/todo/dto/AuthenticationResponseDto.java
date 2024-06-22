@@ -1,4 +1,4 @@
-package com.example.todo.controllers.auth;
+package com.example.todo.dto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class AuthenticationResponse {
+public class AuthenticationResponseDto {
+
   private String token;
 }

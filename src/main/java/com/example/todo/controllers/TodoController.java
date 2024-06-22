@@ -1,61 +1,41 @@
 package com.example.todo.controllers;
 
-import com.example.todo.entities.TodoEntity;
-import com.example.todo.repositories.TodoRepository;
-import com.example.todo.user.User;
-import com.example.todo.user.UserService;
+import com.example.todo.handler.NotFoundException;
+import com.example.todo.services.TodoService;
+import com.example.todo.dto.TodoRequestDto;
+import com.example.todo.dto.TodoResponseDto;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("todo")
 @RequiredArgsConstructor
 public class TodoController {
 
-  private final TodoRepository todoRepository;
-  private final UserService userService;
+  private final TodoService todoService;
 
   @GetMapping
-  public ResponseEntity<List<TodoEntity>> getAllTodo() {
+  public ResponseEntity<List<TodoResponseDto>> getAllTodo() {
+    List<TodoResponseDto> todoResponseDtoList = todoService.getAllTodo();
 
-    User authenticatedUser = userService.getAuthenticatedUser();
-    List<TodoEntity> todoEntities = todoRepository.findByUser(authenticatedUser);
-    return new ResponseEntity<>(todoEntities, HttpStatus.OK);
+    return ResponseEntity.ok(todoResponseDtoList);
   }
   @GetMapping("/{id}")
-  public ResponseEntity<TodoEntity> getTodoById(@PathVariable Long id) {
+  public ResponseEntity<TodoResponseDto> getTodoById(@PathVariable Long id) throws NotFoundException {
+    TodoResponseDto todoResponseDto = todoService.getTodoById(id);
 
-    User authenticatedUser = userService.getAuthenticatedUser();
-    Optional<TodoEntity> todo = todoRepository.findByUserAndId(authenticatedUser, id);
-
-    if (todo.isPresent()) {
-      return new ResponseEntity<>(todo.get(), HttpStatus.OK);
-    }
-    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    return ResponseEntity.ok(todoResponseDto);
   }
   @PostMapping
-  public ResponseEntity<?> createTodo(@RequestBody TodoEntity todo) {
-
-    User authenticatedUser = userService.getAuthenticatedUser();
-    todo.setUser(authenticatedUser);
-    todoRepository.save(todo);
-
-    return new ResponseEntity<>(HttpStatus.CREATED);
+  public void createTodo(@RequestBody @Valid TodoRequestDto todoRequestDto) {
+    todoService.createTodo(todoRequestDto);
   }
   @DeleteMapping("/{id}")
-  public ResponseEntity<?> deleteTodoById(@PathVariable Long id) {
-
-    User authenticatedUser = userService.getAuthenticatedUser();
-    Optional<TodoEntity> todo = todoRepository.findByUserAndId(authenticatedUser, id);
-
-    if (todo.isPresent()) {
-      todoRepository.delete(todo.get());
-    }
-    return new ResponseEntity<>(HttpStatus.OK);
+  public void deleteTodoById(@PathVariable Long id) {
+    todoService.deleteTodoById(id);
   }
 }
